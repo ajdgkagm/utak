@@ -5,13 +5,16 @@ import {
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import POSPage from './pages/POSPage';
-
+import Dashboard from './pages/Dashboard';
+import Update from './pages/Update';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<POSPage/>} />
+        <Route path="/pos" element={<POSPage/>} />
         {/* <Route path="/pos" element={<POSPage/>} /> */}
+        <Route path="/" element={<Dashboard />}/>
+        <Route path="/edit/:firebaseId" element={<Update />}/>
       </Routes>
     </Router>
   );
