@@ -30,6 +30,7 @@ const Update = () => {
                 setInputValue3(targetObject.category);
                 setInputValue4(targetObject.amountStock);
                 console.log(targetObject)
+                // console.log(firebaseId)
             }
             else {
                 alert("error")

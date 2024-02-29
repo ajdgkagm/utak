@@ -19,6 +19,7 @@ function POSPage() {
     const [open, SetOpen] = useState(false);
     const [currentStock, setCurrentStock] = useState([])
     let [productArray, setProductArray] = useState([])
+    const [cartID, setCartID] = useState("")
     
     const toastOptions = {
         autoClose: 400,
@@ -30,7 +31,9 @@ function POSPage() {
     const productss = productArray;
 
     const {firebaseId} = useParams()
-        
+    let [itemId,setItemId] = useState('')
+
+    
     useEffect(() => {
         const fetchData = async () => {
             const db = getDatabase(app);
@@ -48,6 +51,7 @@ function POSPage() {
                 setProductArray(temporaryArray);
                 console.log(temporaryArray, 'temporary array')
                 console.log(myData)
+                
             } else {
                 console.log("No data")
             }
@@ -55,18 +59,34 @@ function POSPage() {
         fetchData();
     }, [firebaseId])
 
-    
-        const handleEditDocument = async (firebaseId) => {
-            const db = getDatabase(app)
+    const overwriteData = async() => {
+        const db = getDatabase(app)
         const newDocRef = ref(db,"menu/category/"+ firebaseId)
         set(newDocRef,{
-            amountStock:currentStock
+            // title:inputValue1,
+            // price:inputValue2,
+            // category:inputValue3,
+            // amountStock:inputValue4
         }).then(()=>{
             alert("Data saved successfully")
         }).catch((error)=>{
-            alert(error)
+            alert("Error")
         })
-          };
+    }
+    console.log(cartID, 'cartid')
+    
+        // const handleEditDocument = async (firebaseId) => {
+        //     const db = getDatabase(app)
+        // const newDocRef = ref(db,"menu/category/"+ firebaseId)
+        // set(newDocRef,{
+        //     ...productss,
+        //     amountStock:currentStock
+        // }).then(()=>{
+        //     alert("Data saved successfully")
+        // }).catch((error)=>{
+        //     alert(error)
+        // })
+        //   };
         
         // const db = getDatabase(app)
         // const newDocRef = ref(db,"menu/category")
@@ -84,20 +104,20 @@ function POSPage() {
         //     alert("Error")
         // })
     
-    const createData = async (itemid) => {
+    const createData = async () => {
         const db = getDatabase(app);
         const newDocRef = push(ref(db, "menu/orders"));
         
         set(newDocRef, {
             // img: image,
             cart,
-            totalAmount
+            totalAmount,
         }).then(() => {
             // uploadImage()
           
             console.log(cart,'cart items')
             toast(`Added item to database`, toastOptions)
-            handleEditDocument(itemid)
+            // handleEditDocument(itemid)
             // overwriteData(updatedData)
         }).catch((error) => {
             alert("error:", error.message)
@@ -114,6 +134,7 @@ function POSPage() {
             return i.id === product.id
         });
         console.log(product.id,'product')
+        console.log(product,'item id')
        
 
         if (findProductInCart) {
@@ -130,6 +151,7 @@ function POSPage() {
                         // currentStock: cartItem.amountStock - cartItem.quantity
                     }
                     console.log(cartItem,'test')
+                    // console.log(product.itemId,'tangina')
                     newCart.push(newItem);
                 } else {
                     newCart.push(cartItem);
@@ -225,7 +247,7 @@ function POSPage() {
                         <tbody>
                             {cart ? cart.map((cartProduct, key) => <tr key={key}>
 
-                                <td>{cartProduct.itemId}</td>
+                                <td onChange={(e)=>setCartID(e.target.value)}>{cartProduct.itemId}</td>
                                 <td>{cartProduct.title}</td>
                                 <td>{cartProduct.price}</td>
                                 <td>{cartProduct.quantity}</td>
@@ -241,6 +263,7 @@ function POSPage() {
                                 <td>{cartProduct.totalAmount}</td>
                                 
                                 <td>
+                                
                                     <button className='btn btn-danger btn-sm' onClick={() => removeProduct(cartProduct)}>Remove</button>
                                 </td>
 
@@ -255,8 +278,14 @@ function POSPage() {
 
                 <div className='mt-3'>
                     {totalAmount !== 0 ? <div>
-                        <button className='btn btn-primary' onClick={createData}>
+                        <button className='btn btn-primary' onClick={createData} >
                             Pay Now
+                        </button>
+                  
+                        
+                        {'  '}
+                        <button className='btn btn-primary' onClick={()=> navigate("/")}>
+                            Go Back
                         </button>
 
 
