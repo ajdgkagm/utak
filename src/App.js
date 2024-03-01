@@ -12,7 +12,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/pos" element={<POSPage/>} />
-        {/* <Route path="/pos" element={<POSPage/>} /> */}
         <Route path="/" element={<Dashboard />}/>
         <Route path="/edit/:firebaseId" element={<Update />}/>
       </Routes>

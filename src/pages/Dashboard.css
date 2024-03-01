@@ -9,23 +9,7 @@ span {font-family: verdana, geneva, sans-serif;}
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-/* body{
-  background: #dfe9f5;
-}
-.container{
-  display: flex;
-}
-nav{
-  position: relative;
-  top: 0;
-  bottom: 0;
-  height: 100vh;
-  left: 0;
-  background: #fff;
-  width: 280px;
-  overflow: hidden;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-} */
+
 .logo{
   text-align: center;
   display: flex;

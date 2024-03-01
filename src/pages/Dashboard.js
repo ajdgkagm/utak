@@ -1,16 +1,14 @@
 
 import "./Dashboard.css"
-import React, { useEffect, useRef, useState } from 'react'
-import { toast } from 'react-toastify';
+import React, { useState } from 'react'
 import { getDatabase, ref, set, get, push, remove } from "firebase/database";
 import app from '../firebaseConfig'
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/database';
-import { AiFillFileAdd } from "react-icons/ai";
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField, Input, MenuItem, Select } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, MenuItem, Select } from "@mui/material";
 import 'firebase/compat/storage';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
 const Dashboard = () => {
     const [open, SetOpen] = useState(false);
@@ -59,7 +57,6 @@ const Dashboard = () => {
             category: category,
             amountStock: amountStock
         }).then(() => {
-            // uploadImage()
             alert(`Added item to database`)
         }).catch((error) => {
             alert("error:", error.message)
@@ -81,10 +78,9 @@ const Dashboard = () => {
                 }
             })
             setProductArray(temporaryArray);
-            console.log(temporaryArray, 'temporary array')
-            console.log(myData)
+
         } else {
-            console.log("No data")
+            alert("No data")
         }
     }
     const fetchOrderData = async () => {
@@ -95,22 +91,15 @@ const Dashboard = () => {
 
             const myData = snapshot.val();
             const temporaryOrderArray = Object.keys(myData).map(myFireId => {
-                
-                const  item = myData[myFireId];
+
+                const item = myData[myFireId];
                 const totalAmount = myData[myFireId].totalAmount;
-                // const { cart } = item;
-                const [cartItem] = item.cart;   
+               
+                const [cartItem] = item.cart;
 
-                // Accessing directly
-                const { price, category,amountStock } = cartItem;
-                // const cartArray = itemData.cart;
-
-                // Accessing properties of the first item in the cart array
-                // const firstCartItem = cart[cartItem];
-                // console.log(firstCartItem,'cart')
-                console.log(myFireId,'fire id')
+               
+                const { price, category, amountStock } = cartItem;
                 return {
-                    // ...myData[myFireId],
                     itemId: myFireId,
                     totalAmount,
                     price,
@@ -119,10 +108,8 @@ const Dashboard = () => {
                 }
             })
             setOrderArray(temporaryOrderArray);
-            console.log(temporaryOrderArray, 'temporary array')
-            console.log(myData, 'orders data')
         } else {
-            console.log("No data")
+            alert("No data")
         }
     }
 
@@ -133,7 +120,14 @@ const Dashboard = () => {
         await remove(dbRef);
         window.location.reload();
     }
-    console.log(orderArray)
+
+    const deleteOrderData = async (itemId) => {
+        const db = getDatabase(app);
+        const dbRef = ref(db, "menu/orders/" + itemId);
+        await remove(dbRef);
+        window.location.reload();
+    }
+
     return (
         <div class="container">
 
@@ -152,16 +146,8 @@ const Dashboard = () => {
                             <Dialog open={open} onClose={closePopUp} fullWidth maxWidth="lg">
                                 <DialogTitle>User Screen</DialogTitle>
                                 <DialogContent>
-
-                                    {/* <DialogContentText>This screen is user</DialogContentText> */}
                                     <Stack spacing={2} margin={2}>
-                                        {/* <Input
-                  type="file"
-                  onChange={handleFileChange}
-                  inputProps={{ accept: 'image/*' }}
-                  name="img"
-                // value={itemState.img}
-                /> */}
+                                       
                                         <TextField variant="outlined" label="Title" name="title" onChange={(e) => setTitle(e.target.value)}></TextField>
                                         <TextField variant="outlined" label="Price" name="price" type="number" onChange={(e) => setPrice(e.target.value)} ></TextField>
                                         {/* <TextField variant="outlined" value={itemState.category} label="Category" name="category" onChange={(e) => setCategory(e.target.value)}></TextField> */}
@@ -270,7 +256,6 @@ const Dashboard = () => {
 
                                                         <td>Item ID</td>
                                                         <td>Total Amount</td>
-                                                        {/* <td>Price</td> */}
                                                         <td>Category</td>
                                                         <td>Amount in Stocks</td>
                                                         <td>Action</td>
@@ -280,12 +265,10 @@ const Dashboard = () => {
                                                     {orderArray ? orderArray.map((orderProduct, key) => <tr key={key}>
                                                         <td>{orderProduct.itemId}</td>
                                                         <td>{orderProduct.totalAmount}</td>
-                                                        {/* <td>{orderProduct.price}</td> */}
                                                         <td>{orderProduct.category}</td>
                                                         <td>{orderProduct.amountStock}</td>
                                                         <td>
-                                                            <button className='btn btn-success btn-sm' onClick={() => navigate(`/edit/${orderProduct.itemId}`)} >Edit</button> {''}
-                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteData(orderProduct.itemId)} >Delete</button> {''}
+                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteOrderData(orderProduct.itemId)} >Delete</button> {''}
                                                         </td>
 
 
@@ -311,11 +294,7 @@ const Dashboard = () => {
                             </Dialog>
                         </div>
                     </div>
-                    <div class="card">
-                        <i class="fab fa-app-store-ios"></i>
-                        <h3>Steak</h3>
-                        <button>Add Products</button>
-                    </div>
+
                 </div>
 
                 <section class="main-course">
