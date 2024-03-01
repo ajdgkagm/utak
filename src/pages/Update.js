@@ -52,8 +52,8 @@ const Update = () => {
         })
     }
     return (
-        <div class="card">
-            <i class="fas fa-laptop-code"></i>
+        <div className="card">
+            <i className="fas fa-laptop-code"></i>
             
             <div style={{ textAlign: 'center' }}>
 

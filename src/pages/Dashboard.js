@@ -23,10 +23,7 @@ const Dashboard = () => {
     let [productArray, setProductArray] = useState([])
     let [orderArray, setOrderArray] = useState([])
     const navigate = useNavigate();
-    const toastOptions = {
-        autoClose: 400,
-        pauseOnHover: true,
-    }
+   
     const openPopUp = () => {
         SetOpen(true);
     }
@@ -47,7 +44,7 @@ const Dashboard = () => {
     const closeViewOrder = () => {
         SetOpenViewOrder(false);
     }
-    const createData = async (state) => {
+    const createData = async () => {
         const db = getDatabase(app);
         const newDocRef = push(ref(db, "menu/category"));
         set(newDocRef, {
@@ -129,16 +126,16 @@ const Dashboard = () => {
     }
 
     return (
-        <div class="container">
+        <div className="container">
 
-            <section class="main">
-                <div class="main-top">
+            <section className="main">
+                <div className="main-top">
                     <h1>PRODUCTS</h1>
-                    <i class="fas fa-user-cog"></i>
+                    <i className="fas fa-user-cog"></i>
                 </div>
-                <div class="main-skills">
-                    <div class="card">
-                        <i class="fas fa-laptop-code"></i>
+                <div className="main-skills">
+                    <div className="card">
+                        <i className="fas fa-laptop-code"></i>
                         <h3>Meal</h3>
                         <button onClick={openPopUp}>Add Products</button>
                         <div style={{ textAlign: 'center' }}>
@@ -150,7 +147,6 @@ const Dashboard = () => {
                                        
                                         <TextField variant="outlined" label="Title" name="title" onChange={(e) => setTitle(e.target.value)}></TextField>
                                         <TextField variant="outlined" label="Price" name="price" type="number" onChange={(e) => setPrice(e.target.value)} ></TextField>
-                                        {/* <TextField variant="outlined" value={itemState.category} label="Category" name="category" onChange={(e) => setCategory(e.target.value)}></TextField> */}
                                         <Select
                                             labelId="category"
                                             id="category"
@@ -174,8 +170,8 @@ const Dashboard = () => {
                             </Dialog>
                         </div>
                     </div>
-                    <div class="card">
-                        <i class="fab fa-wordpress"></i>
+                    <div className="card">
+                        <i className="fab fa-wordpress"></i>
                         <h3>View Products</h3>
                         <button onClick={openPopView}>Add Products</button>
                         <div style={{ textAlign: 'center' }}>
@@ -238,8 +234,8 @@ const Dashboard = () => {
 
 
                     </div>
-                    <div class="card">
-                        <i class="fas fa-palette"></i>
+                    <div className="card">
+                        <i className="fas fa-palette"></i>
                         <h3>Orders</h3>
                         <button onClick={orderViewPopUp}>View Orders</button>
                         <div style={{ textAlign: 'center' }}>
@@ -297,15 +293,15 @@ const Dashboard = () => {
 
                 </div>
 
-                <section class="main-course">
+                <section className="main-course">
                     <h1>View POS</h1>
-                    <div class="course-box">
+                    <div className="course-box">
 
-                        <div class="course">
-                            <div class="box">
+                        <div className="course">
+                            <div className="box">
                                 <h3>POS</h3>
                                 <button onClick={() => navigate(`/pos`)} >continue</button>
-                                <i class="fab fa-html5 html"></i>
+                                <i className="fab fa-html5 html"></i>
                             </div>
 
                         </div>

@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import React from 'react';
 import POSPage from './pages/POSPage';
 import Dashboard from './pages/Dashboard';
 import Update from './pages/Update';

@@ -25,8 +25,8 @@ function POSPage() {
     const navigate = useNavigate();
 
     const productss = productArray;
-
-
+    console.log(currentStock);
+    console.log(setIsLoading);
 
     useEffect(() => {
         const fetchData = async () => {
